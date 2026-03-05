@@ -1,0 +1,235 @@
+{
+  "harness": {
+    "project": "aurora-fullstack-saas",
+    "version": "1.0.0",
+    "description": "Harness configuration for Aurora Fullstack SaaS - Modern Web Application",
+    "created_date": "2026-03-05"
+  },
+  "frontend_harness": {
+    "framework": "Next.js 14",
+    "rendering": "React Server Components",
+    "language": "TypeScript",
+    "styling": {
+      "css": "Tailwind CSS",
+      "components": "shadcn/ui",
+      "primitives": "Radix UI"
+    },
+    "micro_frontends": [
+      "shell-host",
+      "identity-mfe",
+      "dashboard-mfe",
+      "tasks-mfe",
+      "admin-mfe",
+      "billing-mfe"
+    ],
+    "module_federation": {
+      "enabled": true,
+      "shared_libs": ["react", "react-dom", "lodash", "axios"]
+    }
+  },
+  "backend_harness": {
+    "framework": "FastAPI",
+    "orm": "SQLModel",
+    "validation": "Pydantic v2",
+    "task_queue": "Celery",
+    "api_pattern": "BFF (Backend for Frontend)"
+  },
+  "database_harness": {
+    "primary": {
+      "type": "Azure SQL",
+      "version": "V12",
+      "pool_size": 20
+    },
+    "cache": {
+      "type": "Azure Cache for Redis",
+      "version": 7,
+      "tier": "Standard"
+    },
+    "analytics": {
+      "type": "Azure Synapse",
+      "serverless": true
+    },
+    "search": {
+      "type": "Azure AI Search",
+      "version": "2024"
+    }
+  },
+  "realtime_harness": {
+    "websocket": {
+      "framework": "Azure SignalR Service",
+      "connections": 10000
+    },
+    "collaboration": {
+      "framework": "Yjs",
+      "sync": true,
+      "awareness": true
+    }
+  },
+  "authentication_harness": {
+    "framework": "Auth.js v5",
+    "providers": ["Azure AD", "GitHub", "Google", "Email"],
+    "mfa": {
+      "enabled": true,
+      "methods": ["totp", "webauthn"]
+    },
+    "jwt": {
+      "algorithm": "RS256",
+      "expiry": "15m access, 7d refresh"
+    }
+  },
+  "payment_harness": {
+    "provider": "Stripe",
+    "features": [
+      "subscriptions",
+      "invoices",
+      "payment_methods",
+      "webhooks"
+    ],
+    "webhook_verification": true
+  },
+  "ci_cd_harness": {
+    "frontend_pipeline": [
+      {
+        "name": "lint",
+        "actions": ["eslint", "prettier", "tsc"]
+      },
+      {
+        "name": "test",
+        "actions": ["vitest", "testing-library"]
+      },
+      {
+        "name": "build",
+        "actions": ["next build"]
+      },
+      {
+        "name": "security",
+        "actions": ["npm audit", "semgrep"]
+      },
+      {
+        "name": "deploy-staging",
+        "actions": ["Azure Static Web Apps deploy"]
+      },
+      {
+        "name": "e2e-test",
+        "actions": ["playwright"]
+      },
+      {
+        "name": "deploy-production",
+        "actions": ["Azure Static Web Apps deploy"]
+      }
+    ],
+    "backend_pipeline": [
+      {
+        "name": "lint",
+        "actions": ["ruff", "mypy"]
+      },
+      {
+        "name": "test",
+        "actions": ["pytest", "coverage"]
+      },
+      {
+        "name": "build",
+        "actions": ["docker build"]
+      },
+      {
+        "name": "security",
+        "actions": ["bandit", "safety"]
+      },
+      {
+        "name": "deploy-staging",
+        "actions": ["docker push", "azure container apps update"]
+      },
+      {
+        "name": "deploy-production",
+        "actions": ["canary deployment"]
+      }
+    ],
+    "quality_gates": {
+      "test_coverage": 90,
+      "lighthouse_score": 90,
+      "accessibility": "WCAG 2.1 AA"
+    }
+  },
+  "testing_harness": {
+    "unit_tests": {
+      "frontend": "vitest",
+      "backend": "pytest",
+      "coverage_threshold": 90
+    },
+    "integration_tests": {
+      "frontend": "msw",
+      "backend": "testcontainers"
+    },
+    "e2e_tests": {
+      "framework": "Playwright",
+      "browsers": ["chromium", "firefox", "webkit"],
+      "parallel": true
+    },
+    "accessibility_tests": {
+      "framework": "axe-core",
+      "threshold": "WCAG 2.1 AA"
+    }
+  },
+  "observability_harness": {
+    "metrics": {
+      "backend": "Prometheus",
+      "frontend": "Azure Monitor",
+      "app_metrics": ["requests", "latency", "errors"]
+    },
+    "logging": {
+      "frontend": "Azure Monitor",
+      "backend": "Azure Monitor",
+      "structured": true
+    },
+    "tracing": {
+      "backend": "Azure Application Insights",
+      "instrumentation": "OpenTelemetry"
+    },
+    "performance": {
+      "frontend": "Azure Monitor",
+      "backend": "Application Insights"
+    },
+    "dashboards": [
+      {
+        "name": "Application Overview",
+        "metrics": ["users", "requests", "errors"]
+      },
+      {
+        "name": "Performance",
+        "metrics": ["page_load", "api_latency", "lcp"]
+      },
+      {
+        "name": "Business",
+        "metrics": ["revenue", "subscriptions", "tasks"]
+      }
+    ]
+  },
+  "multi_tenancy": {
+    "isolation": "schema",
+    "features": {
+      "custom_domains": true,
+      "branding": true,
+      "roles": ["owner", "admin", "member", "viewer"]
+    },
+    "limits": {
+      "storage": "per_tenant",
+      "api_rate": "per_tenant"
+    }
+  },
+  "deployment_harness": {
+    "frontend": {
+      "platform": "Azure Static Web Apps",
+      "regions": ["eastus", "westus2", "northeurope"]
+    },
+    "backend": {
+      "platform": "Azure Container Apps",
+      "regions": ["eastus", "westus2"],
+      "scaling": "auto"
+    },
+    "database": {
+      "platform": "Azure SQL",
+      "replicas": 2,
+      "backup": "daily"
+    }
+  }
+}

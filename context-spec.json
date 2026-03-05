@@ -1,0 +1,183 @@
+{
+  "context_specification": {
+    "project": {
+      "id": "aurora-fullstack-saas",
+      "name": "Aurora Fullstack SaaS",
+      "version": "1.0.0",
+      "description": "Modern SaaS web application with micro-frontends and BFF pattern",
+      "domain": "Modern Web Application (SaaS)",
+      "organization": "Dulux Tech",
+      "methodology": "Agile + Continuous Delivery"
+    },
+    "domain_context": {
+      "bounded_context": "SaaS Application",
+      "architecture": "Micro-frontends with BFF pattern",
+      "core_responsibilities": [
+        "User authentication and authorization",
+        "Multi-tenancy support",
+        "Real-time collaboration",
+        "Billing and payments",
+        "Task management"
+      ],
+      "upstream_dependencies": [
+        "nebula-cloud-platform",
+        "titan-microservices-mesh",
+        "sentinel-ai-engine"
+      ],
+      "downstream_consumers": []
+    },
+    "key_components": [
+      {
+        "id": "shell-host",
+        "description": "Micro-frontend shell host",
+        "responsibilities": [
+          "Application orchestration",
+          "Shared state management",
+          "Navigation"
+        ]
+      },
+      {
+        "id": "identity-mfe",
+        "description": "Identity and authentication micro-frontend",
+        "responsibilities": [
+          "Login/logout",
+          "Registration",
+          "Password management"
+        ]
+      },
+      {
+        "id": "dashboard-mfe",
+        "description": "Dashboard micro-frontend",
+        "responsibilities": [
+          "Main dashboard",
+          "Analytics widgets",
+          "Reports"
+        ]
+      },
+      {
+        "id": "tasks-mfe",
+        "description": "Task management micro-frontend",
+        "responsibilities": [
+          "Task CRUD",
+          "Task assignment",
+          "Task tracking"
+        ]
+      },
+      {
+        "id": "admin-mfe",
+        "description": "Admin panel micro-frontend",
+        "responsibilities": [
+          "User management",
+          "Tenant management",
+          "Settings"
+        ]
+      },
+      {
+        "id": "billing-mfe",
+        "description": "Billing micro-frontend",
+        "responsibilities": [
+          "Subscription management",
+          "Invoice history",
+          "Payment methods"
+        ]
+      },
+      {
+        "id": "graphql-gateway",
+        "description": "GraphQL API gateway",
+        "responsibilities": [
+          "Schema federation",
+          "Query aggregation",
+          "Rate limiting"
+        ]
+      },
+      {
+        "id": "realtime-gateway",
+        "description": "Real-time communication gateway",
+        "responsibilities": [
+          "WebSocket management",
+          "Event broadcasting",
+          "Presence"
+        ]
+      },
+      {
+        "id": "auth-gateway",
+        "description": "Authentication gateway",
+        "responsibilities": [
+          "JWT validation",
+          "Session management",
+          "SSO integration"
+        ]
+      },
+      {
+        "id": "domain-services",
+        "description": "Business domain services",
+        "responsibilities": [
+          "Task service",
+          "User service",
+          "Billing service"
+        ]
+      }
+    ],
+    "technology_stack": {
+      "frontend": ["Next.js 14", "React Server Components", "TypeScript"],
+      "styling": ["Tailwind CSS", "shadcn/ui", "Radix UI"],
+      "backend": ["FastAPI", "SQLModel", "Pydantic v2", "Celery"],
+      "databases": ["Azure SQL", "Azure Cache for Redis", "Cosmos DB", "Azure AI Search"],
+      "realtime": ["Socket.io", "Yjs", "WebSockets", "Azure SignalR"],
+      "auth": ["Auth.js v5", "JWT", "OAuth2", "WebAuthn", "Azure AD"],
+      "payment": ["Stripe"]
+    },
+    "architecture_principles": [
+      "Micro-frontends: Independent deployment of UI components",
+      "BFF Pattern: Backend-for-Frontend per micro-frontend",
+      "Multi-tenancy: Shared infrastructure, isolated data",
+      "Real-time: Collaborative features with WebSockets",
+      "Performance: Server components for optimal loading",
+      "Security: Zero-trust authentication"
+    ],
+    "development_phases": {
+      "phase_1": {
+        "name": "Foundation",
+        "duration": "3 weeks",
+        "deliverables": [
+          "Shell host setup",
+          "GraphQL gateway",
+          "Auth gateway",
+          "Base infrastructure"
+        ]
+      },
+      "phase_2": {
+        "name": "Core Features",
+        "duration": "4 weeks",
+        "deliverables": [
+          "Identity MFE",
+          "Dashboard MFE",
+          "Tasks MFE",
+          "Core backend services"
+        ]
+      },
+      "phase_3": {
+        "name": "Advanced Features",
+        "duration": "3 weeks",
+        "deliverables": [
+          "Billing MFE",
+          "Admin MFE",
+          "Real-time features",
+          "Advanced analytics"
+        ]
+      }
+    },
+    "quality_requirements": {
+      "test_coverage": 90,
+      "e2e_tests": "required",
+      "accessibility": "WCAG 2.1 AA",
+      "performance": "Lighthouse ≥90"
+    },
+    "success_criteria": {
+      "uptime": 99.9,
+      "page_load": "<2s",
+      "api_latency": "<100ms",
+      "test_coverage": "≥90%"
+    }
+  }
+}
