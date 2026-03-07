@@ -1,0 +1,111 @@
+version: '3.8'
+
+services:
+  # Frontend - Shell Host
+  shell-host:
+    build:
+      context: ./apps/shell-host
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./apps/shell-host:/app
+      - /app/node_modules
+    depends_on:
+      - api-gateway
+
+  # Backend - API Gateway
+  api-gateway:
+    build:
+      context: ./services/api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:password@db:5432/aurora
+      - REDIS_URL=redis://redis:6379
+      - DEBUG=true
+    volumes:
+      - ./services/api-gateway:/app
+    depends_on:
+      - db
+      - redis
+
+  # Backend - Auth Gateway
+  auth-gateway:
+    build:
+      context: ./services/auth-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8004:8004"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:password@db:5432/aurora
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - db
+      - redis
+
+  # Backend - Tasks Service
+  tasks-service:
+    build:
+      context: ./services/tasks-service
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:password@db:5432/aurora
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - db
+      - redis
+
+  # Backend - Users Service
+  users-service:
+    build:
+      context: ./services/users-service
+      dockerfile: Dockerfile
+    ports:
+      - "8002:8002"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:password@db:5432/aurora
+    depends_on:
+      - db
+
+  # Backend - Billing Service
+  billing-service:
+    build:
+      context: ./services/billing-service
+      dockerfile: Dockerfile
+    ports:
+      - "8003:8003"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:password@db:5432/aurora
+      - STRIPE_API_KEY=${STRIPE_API_KEY}
+    depends_on:
+      - db
+
+  # Database
+  db:
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=aurora
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Redis
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  postgres_data:
+  redis_data:

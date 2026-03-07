@@ -1,0 +1,36 @@
+node_modules/
+package-lock.json
+dist/
+build/
+.env
+.env.local
+*.log
+.DS_Store
+
+# Bundle files
+aurora.bundle
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+*.egg-info/
+
+# Next.js
+.next/
+out/
+
+# Testing
+coverage/
+.pytest_cache/
+htmlcov/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
